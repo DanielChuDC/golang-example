@@ -1,15 +1,11 @@
-# Minimize Footprint: Multistage
-FROM golang:alpine as builder
-RUN mkdir /build 
-ADD . /build/
-WORKDIR /build 
+FROM golang:1.7.3 AS builder
+WORKDIR /go/src/github.com/alexellis/href-counter/
+RUN go get -d -v golang.org/x/net/html  
+COPY app.go    .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 
-# If we can compile a Golang app to a single binary, of which is statically-linked to its dependencies, 
-# we can leverage a 0KB container to run this application. 
-# This is a special base image provided by Docker called "scratch": FROM scratch
-FROM scratch
-COPY --from=builder /build/main /app/
-WORKDIR /app
-CMD ["./main"]
-
-
+FROM alpine:latest  
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+COPY --from=builder /go/src/github.com/alexellis/href-counter/app .
+CMD ["./app"] 
