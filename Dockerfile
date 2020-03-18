@@ -1,11 +1,18 @@
-FROM golang:1.7.3 AS builder
-WORKDIR /go/src/github.com/alexellis/href-counter/
-RUN go get -d -v golang.org/x/net/html  
-COPY app.go    .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+# https://blog.golang.org/docker
+# Start from a Debian image with the latest version of Go installed
+# and a workspace (GOPATH) configured at /go.
+FROM golang
 
-FROM alpine:latest  
-RUN apk --no-cache add ca-certificates
-WORKDIR /root/
-COPY --from=builder /go/src/github.com/alexellis/href-counter/app .
-CMD ["./app"] 
+# Copy the local package files to the container's workspace.
+ADD . /go/src/github.com/golang/example/outyet
+
+# Build the outyet command inside the container.
+# (You may fetch or manage dependencies here,
+# either manually or with a tool like "godep".)
+RUN go install github.com/golang/example/outyet
+
+# Run the outyet command by default when the container starts.
+ENTRYPOINT /go/bin/outyet
+
+# Document that the service listens on port 8080.
+EXPOSE 8080
