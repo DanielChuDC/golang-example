@@ -48,7 +48,7 @@ RUN go get -d -v golang.org/x/net/html
 #    -o /go/bin/hello .
 # Build the binary
 # RUN GOOS=linux go build -ldflags="-w -s" -o /go/bin/hello
-RUN go install github.com/DanielChuDC/golang-example
+RUN go install .
 
 
 ############################
