@@ -38,9 +38,9 @@ COPY . .
 RUN go get -d -v golang.org/x/net/html 
 # Fetch dependencies.
 
-# Using go mod with go 1.11
-# RUN go mod download
-# RUN go mod verify
+RUN git clone https://github.com/keycloak/keycloak-gatekeeper.git
+
+WORKDIR $GOPATH/src/mypackage/myapp/keycloak-gatekeeper
 
 RUN ls
 # Build the binary
@@ -49,8 +49,7 @@ RUN ls
 #    -o /go/bin/hello .
 # Build the binary
 # RUN GOOS=linux go build -ldflags="-w -s" -o /go/bin/hello
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /go/bin/hello main.go 
-
+RUN CGO_ENABLED=0 GOOS=linux go build -a -tags netgo -ldflags "-w -s" -o /go/bin/hello
 
 ############################
 # STEP 2 build a small image
@@ -76,4 +75,4 @@ ENTRYPOINT ["/go/bin/hello"]
 # ENTRYPOINT /go/bin/outyet
 
 # Document that the service listens on port 8080.
-EXPOSE 8080
+EXPOSE 3000
