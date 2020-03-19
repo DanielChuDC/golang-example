@@ -35,9 +35,9 @@ COPY . .
 # Fix the error cannot find package "golang.org/x/net/html" in any of:
 # default: #10 0.286 	/usr/local/go/src/golang.org/x/net/html (from $GOROOT)
 # default: #10 0.286 	/go/src/golang.org/x/net/html (from $GOPATH)
-# RUN go get -d -v golang.org/x/net/html 
+RUN go get -d -v golang.org/x/net/html 
 # Fetch dependencies.
-RUN go get -d -v
+# RUN go get -d -v
 
 # Build the binary
 RUN CGO_ENABLED=0 GOOS=linux go build \
