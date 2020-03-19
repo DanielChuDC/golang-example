@@ -42,13 +42,14 @@ RUN go get -d -v golang.org/x/net/html
 # RUN go mod download
 # RUN go mod verify
 
+RUN ls
 # Build the binary
 # RUN CGO_ENABLED=0 GOOS=linux go build \
 #    -ldflags='-w -s -extldflags "-static"' -a \
 #    -o /go/bin/hello .
 # Build the binary
 # RUN GOOS=linux go build -ldflags="-w -s" -o /go/bin/hello
-RUN go install .
+RUN go build main.go -o /go/bin/hello
 
 
 ############################
