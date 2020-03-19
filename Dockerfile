@@ -36,11 +36,7 @@ COPY . .
 # default: #10 0.286 	/usr/local/go/src/golang.org/x/net/html (from $GOROOT)
 # default: #10 0.286 	/go/src/golang.org/x/net/html (from $GOPATH)
 RUN go get -d -v golang.org/x/net/html 
-# Fetch dependencies.
 
-# Using go mod with go 1.11
-# RUN go mod download
-# RUN go mod verify
 
 RUN ls
 # Build the binary
