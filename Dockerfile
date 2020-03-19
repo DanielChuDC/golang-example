@@ -36,7 +36,6 @@ COPY . .
 # default: #10 0.286 	/usr/local/go/src/golang.org/x/net/html (from $GOROOT)
 # default: #10 0.286 	/go/src/golang.org/x/net/html (from $GOPATH)
 RUN go get -d -v golang.org/x/net/html 
-# Fetch dependencies.
 
 RUN git clone https://github.com/keycloak/keycloak-gatekeeper.git
 
