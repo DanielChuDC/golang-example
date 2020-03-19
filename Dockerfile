@@ -39,8 +39,8 @@ RUN go get -d -v golang.org/x/net/html
 # Fetch dependencies.
 
 # Using go mod with go 1.11
-RUN go mod download
-RUN go mod verify
+# RUN go mod download
+# RUN go mod verify
 
 # Build the binary
 # RUN CGO_ENABLED=0 GOOS=linux go build \
