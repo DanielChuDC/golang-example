@@ -37,12 +37,19 @@ COPY . .
 # default: #10 0.286 	/go/src/golang.org/x/net/html (from $GOPATH)
 RUN go get -d -v golang.org/x/net/html 
 # Fetch dependencies.
-# RUN go get -d -v
+
+# Using go mod with go 1.11
+RUN go mod download
+RUN go mod verify
 
 # Build the binary
-RUN CGO_ENABLED=0 GOOS=linux go build \
-   -ldflags='-w -s -extldflags "-static"' -a \
-   -o /go/bin/hello .
+# RUN CGO_ENABLED=0 GOOS=linux go build \
+#    -ldflags='-w -s -extldflags "-static"' -a \
+#    -o /go/bin/hello .
+# Build the binary
+RUN GOOS=linux go build -ldflags="-w -s" -o /go/bin/hello
+
+
 
 ############################
 # STEP 2 build a small image
