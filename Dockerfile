@@ -49,7 +49,7 @@ RUN ls
 #    -o /go/bin/hello .
 # Build the binary
 # RUN GOOS=linux go build -ldflags="-w -s" -o /go/bin/hello
-RUN go build main.go -o /go/bin/hello
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /go/bin/hello main.go 
 
 
 ############################
