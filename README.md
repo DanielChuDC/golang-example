@@ -1,7 +1,9 @@
 # golang-example
+
 This project enable you to build golang application
 
 # Inspired by
+
 [Golang Docker Official Images ](https://hub.docker.com/_/golang?tab=tags)
 
 [Use multi-stage builds with Golang ](https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds)
@@ -14,14 +16,34 @@ This project enable you to build golang application
 
 [Package build ](https://golang.org/pkg/go/build/)
 
+### This project get soure code from
 
-### This project get soure code from 
 - [The Go blog:Deploying Go servers with Docker](https://blog.golang.org/docker)
 
 ### Possible direction
 
 - https://github.com/icicimov/go-proxy-docker-multiarch/blob/master/Dockerfile
 
+### Familiar with Go command
+
+- https://golang.org/cmd/go/
+
+
 ### Branch
-- keycloak-gatekeeper 
-   - Create docker image with [keycloak-gatekeeper](https://github.com/keycloak/keycloak-gatekeeper/blob/master/docs/building.md)
+
+- keycloak-gatekeeper
+  - Create docker image with [keycloak-gatekeeper](https://github.com/keycloak/keycloak-gatekeeper/blob/master/docs/building.md)
+- go-kit
+  - example of using go-kit
+    - Install tools from
+    - > Failed too. go-kit does not seem to support
+      - https://github.com/go-kit/kit
+      - https://github.com/GrantZheng/kit (A fork from github.com/kujtimiihoxha/kit) ([A medium article talk about this](https://medium.com/@kujtimii.h/creating-a-todo-app-using-gokit-cli-20f066a58e1) )
+         - curl https://glide.sh/get | sh  (Using [A package manager for golang](https://github.com/Masterminds/glide))
+         - glide init
+   - > Failed, unmaintained project gokit-cli
+      - go get github.com/kujtimiihoxha/kit (Unmaintain)
+      - go get -u google.golang.org/grpc (if you want to utilise generation of gRPC service code)
+      - go get -u github.com/golang/protobuf/protoc-gen-go (if you want to utilise generation of gRPC service code)
+      - kit generate service users --dmw (--dmw creates default endpoint middleware, logging middleware.)
+- gin-and-gorm-rest-api
