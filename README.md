@@ -24,7 +24,6 @@ This project enable you to build golang application
 
 ### Branch
 
-
 - keycloak-gatekeeper
   - Create docker image with [keycloak-gatekeeper](https://github.com/keycloak/keycloak-gatekeeper/blob/master/docs/building.md)
 - go-kit (Failed, do not use)
@@ -43,5 +42,4 @@ This project enable you to build golang application
 - gin-and-gorm-rest-api
    - Start project
       -  go mod init
-      
->>>>>>> Stashed changes
+
