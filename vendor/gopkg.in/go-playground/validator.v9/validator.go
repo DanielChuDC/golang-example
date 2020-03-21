@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-// per validate construct
+// per validate contruct
 type validate struct {
 	v              *Validate
 	top            reflect.Value
@@ -94,6 +94,7 @@ func (v *validate) validateStruct(ctx context.Context, parent reflect.Value, cur
 
 // traverseField validates any field, be it a struct or single field, ensures it's validity and passes it along to be validated via it's tag options
 func (v *validate) traverseField(ctx context.Context, parent reflect.Value, current reflect.Value, ns []byte, structNs []byte, cf *cField, ct *cTag) {
+
 	var typ reflect.Type
 	var kind reflect.Kind
 
@@ -111,36 +112,16 @@ func (v *validate) traverseField(ctx context.Context, parent reflect.Value, curr
 		}
 
 		if ct.hasTag {
-			if kind == reflect.Invalid {
-				v.str1 = string(append(ns, cf.altName...))
-				if v.v.hasTagNameFunc {
-					v.str2 = string(append(structNs, cf.name...))
-				} else {
-					v.str2 = v.str1
-				}
-				v.errs = append(v.errs,
-					&fieldError{
-						v:              v.v,
-						tag:            ct.aliasTag,
-						actualTag:      ct.tag,
-						ns:             v.str1,
-						structNs:       v.str2,
-						fieldLen:       uint8(len(cf.altName)),
-						structfieldLen: uint8(len(cf.name)),
-						param:          ct.param,
-						kind:           kind,
-					},
-				)
-				return
-			}
 
 			v.str1 = string(append(ns, cf.altName...))
+
 			if v.v.hasTagNameFunc {
 				v.str2 = string(append(structNs, cf.name...))
 			} else {
 				v.str2 = v.str1
 			}
-			if !ct.runValidationWhenNil {
+
+			if kind == reflect.Invalid {
 				v.errs = append(v.errs,
 					&fieldError{
 						v:              v.v,
@@ -150,14 +131,31 @@ func (v *validate) traverseField(ctx context.Context, parent reflect.Value, curr
 						structNs:       v.str2,
 						fieldLen:       uint8(len(cf.altName)),
 						structfieldLen: uint8(len(cf.name)),
-						value:          current.Interface(),
 						param:          ct.param,
 						kind:           kind,
-						typ:            current.Type(),
 					},
 				)
+
 				return
 			}
+
+			v.errs = append(v.errs,
+				&fieldError{
+					v:              v.v,
+					tag:            ct.aliasTag,
+					actualTag:      ct.tag,
+					ns:             v.str1,
+					structNs:       v.str2,
+					fieldLen:       uint8(len(cf.altName)),
+					structfieldLen: uint8(len(cf.name)),
+					value:          current.Interface(),
+					param:          ct.param,
+					kind:           kind,
+					typ:            current.Type(),
+				},
+			)
+
+			return
 		}
 
 	case reflect.Struct:

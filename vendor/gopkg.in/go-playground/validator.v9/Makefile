@@ -1,13 +1,11 @@
 GOCMD=go
 
 linters-install:
-	@golangci-lint --version >/dev/null 2>&1 || { \
-		echo "installing linting tools..."; \
-		curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s v1.19.1; \
-	}
+	$(GOCMD) get -u github.com/alecthomas/gometalinter
+	gometalinter --install
 
 lint: linters-install
-	golangci-lint run
+	gometalinter --vendor --disable-all --enable=vet --enable=vetshadow --enable=golint --enable=maligned --enable=megacheck --enable=ineffassign --enable=misspell --enable=errcheck --enable=goconst ./...
 
 test:
 	$(GOCMD) test -cover -race ./...

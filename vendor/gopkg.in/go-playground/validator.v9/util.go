@@ -57,10 +57,11 @@ BEGIN:
 //
 // NOTE: when not successful ok will be false, this can happen when a nested struct is nil and so the field
 // could not be retrieved because it didn't exist.
-func (v *validate) getStructFieldOKInternal(val reflect.Value, namespace string) (current reflect.Value, kind reflect.Kind, nullable bool, found bool) {
+func (v *validate) getStructFieldOKInternal(val reflect.Value, namespace string) (current reflect.Value, kind reflect.Kind, found bool) {
 
 BEGIN:
-	current, kind, nullable = v.ExtractType(val)
+	current, kind, _ = v.ExtractType(val)
+
 	if kind == reflect.Invalid {
 		return
 	}
@@ -111,7 +112,7 @@ BEGIN:
 		arrIdx, _ := strconv.Atoi(namespace[idx+1 : idx2])
 
 		if arrIdx >= current.Len() {
-			return
+			return current, kind, false
 		}
 
 		startIdx := idx2 + 1
