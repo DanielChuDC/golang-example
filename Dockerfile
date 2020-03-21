@@ -9,6 +9,7 @@
 # golang alpine 1.13.5
 FROM golang:latest as builder
 
+ENV GO111MODULE=on
 
 # Create appuser
 ENV USER=appuser
