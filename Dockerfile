@@ -14,6 +14,7 @@ ENV GO111MODULE=on
 # Install git + SSL ca certificates.
 # Git is required for fetching the dependencies.
 # Ca-certificates is required to call HTTPS endpoints.
+# Else you will get error => local error: tls: bad record MAC 
 RUN apk update && apk add --no-cache git ca-certificates tzdata && update-ca-certificates
 
 

@@ -17,8 +17,8 @@ metadata:
     app: postgres
 spec:
   ports:
-  - port: 5432
-    name: postgres
+    - port: 5432
+      name: postgres
   clusterIP: None
   selector:
     app: postgres
@@ -28,22 +28,25 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-claim
+  annotations:
+    volume.beta.kubernetes.io/storage-class: 'ibmc-file-gold' # Enter a storage class. To see a lis
   labels:
     app: postgres
+    billingType: 'hourly'
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 3sGi
+      storage: 1Gi
+  storageClassName: ibmc-file-gold
 ---
-
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgres-demo
 spec:
-  serviceName: "postgres"
+  serviceName: 'postgres'
   replicas: 2
   selector:
     matchLabels:
@@ -54,19 +57,18 @@ spec:
         app: postgres
     spec:
       containers:
-      - name: postgres
-        image: postgres:latest
-        envFrom:
-          - configMapRef:
-              name: postgres-config-demo
-        ports:
-        - containerPort: 5432
-          name: postgredb
-        volumeMounts:
-        - name: postgredb
-          mountPath: /var/lib/postgresql/data
-          subPath: postgres
+        - name: postgres
+          image: postgres:latest
+          envFrom:
+            - configMapRef:
+                name: postgres-config-demo
+          ports:
+            - containerPort: 5432
+              name: postgres
+          volumeMounts:
+            - name: postgres
+              mountPath: /var/lib/postgresql/data
       volumes:
-        - name: postgresql
+        - name: postgres
           persistentVolumeClaim:
             claimName: postgres-claim

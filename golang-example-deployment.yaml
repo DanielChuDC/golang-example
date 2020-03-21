@@ -10,7 +10,8 @@ data:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: example
   POSTGRES_HOST: postgres
-  POSTGRES_PORT: 5432
+  POSTGRES_PORT: "5432"
+
 ---
 
 # golang-example service
@@ -54,6 +55,9 @@ spec:
       containers:
       - name: golang-example
         image: "docker.io/moxing9876/golang-example:0.0.3"
+        envFrom:
+          - configMapRef:
+              name: golang-example-config-demo
         imagePullPolicy: IfNotPresent
         name: golang-example
         ports:
