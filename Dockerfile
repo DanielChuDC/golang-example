@@ -36,17 +36,16 @@ COPY . .
 # Fix the error cannot find package "golang.org/x/net/html" in any of:
 # default: #10 0.286 	/usr/local/go/src/golang.org/x/net/html (from $GOROOT)
 # default: #10 0.286 	/go/src/golang.org/x/net/html (from $GOPATH)
-RUN go mod download
+RUN go mod vendor
 
 
 RUN ls
+
 # Build the binary
-# RUN CGO_ENABLED=0 GOOS=linux go build \
-#    -ldflags='-w -s -extldflags "-static"' -a \
-#    -o /go/bin/hello .
-# Build the binary
-# RUN GOOS=linux go build -ldflags="-w -s" -o /go/bin/hello
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /go/bin/hello main.go 
+# RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /go/bin/hello main.go 
+
+# -mod vendor 
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /go/bin/hello -mod vendor main.go 
 
 
 ############################
