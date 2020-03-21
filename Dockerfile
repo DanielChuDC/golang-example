@@ -7,7 +7,7 @@
 # STEP 1 build executable binary
 ############################
 # golang alpine 1.13.5
-FROM golang@sha256:0991060a1447cf648bab7f6bb60335d1243930e38420bee8fec3db1267b84cfa as builder
+FROM golang:latest as builder
 
 
 # Create appuser
@@ -17,7 +17,7 @@ ENV UID=10001
 # Install git + SSL ca certificates.
 # Git is required for fetching the dependencies.
 # Ca-certificates is required to call HTTPS endpoints.
-RUN apk update && apk add --no-cache git ca-certificates tzdata && update-ca-certificates
+# RUN apk update && apk add --no-cache git ca-certificates tzdata && update-ca-certificates
 
 
 # See https://stackoverflow.com/a/55757473/12429735
@@ -35,7 +35,7 @@ COPY . .
 # Fix the error cannot find package "golang.org/x/net/html" in any of:
 # default: #10 0.286 	/usr/local/go/src/golang.org/x/net/html (from $GOROOT)
 # default: #10 0.286 	/go/src/golang.org/x/net/html (from $GOPATH)
-RUN go get -d -v golang.org/x/net/html 
+RUN go mod download
 
 
 RUN ls

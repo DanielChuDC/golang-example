@@ -1,0 +1,84 @@
+# golang-example configmap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: golang-example-config-demo
+  labels:
+    app: golang-example
+data:
+  POSTGRES_DB: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: example
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+---
+
+# golang-example service
+apiVersion: v1
+kind: Service
+metadata:
+  name: golang-example
+  labels:
+    app: golang-example
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+  - protocol: "TCP"
+    port: 8080
+    targetPort: 8080
+  type: LoadBalancer
+  selector:
+    app: golang-example
+---
+# golang-example deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golang-example
+  labels:
+    app: golang-example
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: golang-example
+      tier: api
+  template:
+    metadata:
+      labels:
+        app: golang-example
+        tier: api
+    spec:
+      containers:
+      - name: golang-example
+        image: "docker.io/moxing9876/golang-example:0.0.3"
+        imagePullPolicy: IfNotPresent
+        name: golang-example
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        lifecycle:
+          preStop:
+            exec:
+              command: ["sh", "-c", "tail -f /dev/null"] # https://stackoverflow.com/questions/31870222/how-can-i-keep-a-container-running-on-kubernetes
+---
+# golang-example route
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: golang-example
+  namespace: default
+  labels:
+    app: golang-example
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  to:
+    kind: Service
+    name: golang-example
+    weight: 100
+  port:
+    targetPort: 8080
+  wildcardPolicy: None

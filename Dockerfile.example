@@ -1,11 +1,15 @@
-FROM golang:1.7.3 AS builder
-WORKDIR /go/src/github.com/alexellis/href-counter/
-RUN go get -d -v golang.org/x/net/html  
-COPY app.go    .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+# Take from https://medium.com/@uxioandrade/implementing-session-caching-in-go-with-gin-sessions-redis-and-docker-838608f6cca
+# Last build size was 996MB, which having 809MB as golang:latest
+FROM golang:latest
 
-FROM scratch
-RUN apk --no-cache add ca-certificates
-WORKDIR /root/
-COPY --from=builder /go/src/github.com/alexellis/href-counter/app .
-CMD ["./app"] 
+ENV GO111MODULE=on
+
+WORKDIR /app
+
+COPY ./go.mod .
+COPY ./go.sum .
+
+RUN go mod download
+
+COPY . .
+CMD ["go","run","main.go"]
