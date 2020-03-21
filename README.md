@@ -69,4 +69,7 @@ This project enable you to build golang application
       6949a79586fb        postgres:latest                   "docker-entrypoint.s…"   6 minutes ago       Up 6 minutes        0.0.0.0:5432->5432/tcp   postgres
       ```
     - `$ curl http://localhost:8080/books`
-      - example output : `{"data":[{"id":1,"title":"title1","author":"author1"},{"id":2,"title":"title1","author":"author1"}]}`
+      - example output :
+      ```
+      {"data":[{"id":1,"title":"title1","author":"author1"},{"id":2,"title":"title1","author":"author1"}]}
+      ```
