@@ -55,8 +55,8 @@ This project enable you to build golang application
     - go run main.go
   - **Deploy into Kubernetes**
     - [Kubernetes-container-service-GitLab-sample on IBM](https://github.com/IBM/Kubernetes-container-service-GitLab-sample/blob/master/kubernetes/postgres.yaml)
-    - [golang-example.yaml](./golang-example-deployment.yaml)
-    - [postgret-deployment.yaml](./postgret-deployment.yaml)
+    - [golang-example.yaml](https://github.com/DanielChuDC/golang-example/blob/gin-and-gorm-rest-api/golang-example-deployment.yaml)
+    - [postgret-deployment.yaml](https://github.com/DanielChuDC/golang-example/blob/gin-and-gorm-rest-api/postgret-deployment.yaml)
   - [Using go mod download to speed up Golang Docker builds](https://medium.com/@petomalina/using-go-mod-download-to-speed-up-golang-docker-builds-707591336888)
   - **Using Power environment**
     - `docker network create golang-example`
