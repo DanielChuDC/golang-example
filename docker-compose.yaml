@@ -25,6 +25,6 @@ services:
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
     env_file:
-      - web.env # configure postgres
+      - database.env # configure postgres
     links:
       - db

@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "net/http"
 	controllers "golang-example/controllers" // new
 	"golang-example/models"                  // new
 
